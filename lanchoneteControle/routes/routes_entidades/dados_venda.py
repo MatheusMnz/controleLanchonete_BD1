@@ -6,6 +6,7 @@ from forms.dados_vendaForm import produtoPreco_Venda
 # Mapeando BluePrint para dados de venda
 dados_venda_bp = Blueprint('dados_venda', __name__)
 
+
 @dados_venda_bp.route('/estoque/<int:id>/dados_venda')
 def lista_dados_venda(id):
     conn = get_db_connection()

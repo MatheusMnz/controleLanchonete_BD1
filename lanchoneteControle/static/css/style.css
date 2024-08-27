@@ -98,6 +98,10 @@ body {
     color: #fff;
   }
 
+  .btn-3 {
+    background-color: #0caf0c;
+    color: #fff;
+  }
 /* styles.css */
 th, td {
   border: 1px solid #ece3e3;

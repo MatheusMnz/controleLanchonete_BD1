@@ -31,7 +31,7 @@ def adiciona_produto_fornecedor():
 
 
 # Rota para listar todos os produtos associados a um fornecedor específico
-@produto_fornecedor_bp.route('/fornecedor/<int:id_fornecedor>/produtos')
+@produto_fornecedor_bp.route('/produto_fornecedor/<int:id_fornecedor>/produtos')
 def lista_produtos_fornecedor(id_fornecedor):
     conn = get_db_connection()
     produtos = conn.execute('''
