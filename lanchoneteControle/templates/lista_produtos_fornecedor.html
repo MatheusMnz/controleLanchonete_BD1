@@ -1,0 +1,37 @@
+<!-- templates/lista_produtos_fornecedor.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Produtos do Fornecedor</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seu CSS personalizado -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Produtos Associados ao Fornecedor</h1>
+        <a href="{{ url_for('produto_fornecedor.adiciona_produto_fornecedor') }}" class="btn btn-primary mb-3">Adicionar Produto-Fornecedor</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Produto</th>
+                    <th>Preço de Compra</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for produto in produtos %}
+                    <tr>
+                        <td>{{ produto.nome }}</td>
+                        <td>{{ produto.preco_compra }}</td>
+                        <td>{{ produto.data }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adicionar Cliente</title>
+    <link rel="stylesheet" href="/static/css/style.css"> </head>
+<body>
+    <div class="container">
+        <h1>Adicionar Cliente</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="cpf">CPF:</label>
+                {{ form.cpf(size=32, class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="nome">Nome:</label>
+                {{ form.nome(size=32, class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="endereco">Endereço:</label>
+                {{ form.endereco(size=64, class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="idade">Idade:</label>
+                {{ form.idade(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

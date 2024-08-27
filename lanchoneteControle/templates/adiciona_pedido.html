@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Pedido</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Pedido</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="quantidade_vendas">Quantidade de Vendas:</label>
+                {{ form.quantidade_vendas(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="preco_venda">Preço de Venda:</label>
+                {{ form.preco_venda(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="id_cliente">Cliente:</label>
+                {{ form.id_cliente(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="id_funcionario">Funcionário:</label>
+                {{ form.id_funcionario(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="data">Data do Pedido:</label>
+                {{ form.data(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="valor">Valor Total:</label>
+                {{ form.valor(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Adicionar Pedido</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

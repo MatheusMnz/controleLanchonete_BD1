@@ -1,0 +1,29 @@
+<table class="tabela">
+    <link rel="stylesheet" href="/static/css/style.css"> </head>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Descrição</th>
+            <th>Categoria</th>
+            <th>Quantidade</th>
+            <th>Ações</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for produto in estoque %}
+        <tr>
+            <td>{{ produto.id_produto }}</td>
+            <td>{{ produto.nome }}</td>
+            <td>{{ produto.descricao }}</td>
+            <td>{{ produto.categoria }}</td>
+            <td>{{ produto.quantidade_produto }}</td>
+            <td>
+                <a href="{{ url_for('estoque.atualiza_estoque', id=produto.id_produto) }}" class="btn btn-primary">Editar</a>
+                <a href="{{ url_for('estoque.detalhe_estoque', id=produto.id_produto) }}" class="btn btn-info">Detalhes</a>
+                <a href="{{ url_for('estoque.confirma_remocao', id=produto.id_produto) }}" class="btn btn-remove">Remover</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>

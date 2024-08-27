@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Atualizar Produto</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Atualizar Produto</h2>
+        <form method="POST">
+            {{ form.hidden_tag() }}
+            <p>
+                {{ form.nome.label }}<br>
+                {{ form.nome(class="form-control") }}
+            </p>
+            <p>
+                {{ form.descricao.label }}<br>
+                {{ form.descricao(class="form-control") }}
+            </p>
+            <p>
+                {{ form.categoria.label }}<br>
+                {{ form.categoria(class="form-control") }}
+            </p>
+            <p>
+                {{ form.quantidade_produto.label }}<br>
+                {{ form.quantidade_produto(class="form-control") }}
+            </p>
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</body>
+</html>

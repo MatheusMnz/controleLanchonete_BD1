@@ -1,0 +1,41 @@
+<!-- templates/lista_vendas.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listagem de Vendas</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seu CSS personalizado -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Listagem de Vendas</h1>
+        <a href="{{ url_for('vendas.adiciona_venda') }}" class="btn btn-primary mb-3">Adicionar Venda</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID Produto</th>
+                    <th>Nome Produto</th>
+                    <th>Preço</th>
+                    <th>Data Início</th>
+                    <th>Data Fim</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venda in vendas %}
+                    <tr>
+                        <td>{{ venda.id_produto }}</td>
+                        <td>{{ venda.nome_produto }}</td>
+                        <td>{{ venda.preco }}</td>
+                        <td>{{ venda.data_inicio }}</td>
+                        <td>{{ venda.data_fim }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

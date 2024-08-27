@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalhes do Produto</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Detalhes do Produto</h2>
+        <p><strong>ID:</strong> {{ item_estoque.id_produto }}</p>
+        <p><strong>Nome:</strong> {{ item_estoque.nome }}</p>
+        <p><strong>Descrição:</strong> {{ item_estoque.descricao }}</p>
+        <p><strong>Categoria:</strong> {{ item_estoque.categoria }}</p>
+        <p><strong>Quantidade:</strong> {{ item_estoque.quantidade_produto }}</p>
+        <a href="{{ url_for('estoque.atualiza_estoque', id=item_estoque.id_produto) }}" class="btn btn-primary">Editar</a>
+        <a href="{{ url_for('estoque.lista_estoque') }}" class="btn btn-secondary">Voltar</a>
+        <a href="{{ url_for('estoque.confirma_remocao', id=item_estoque.id_produto) }}" class="btn btn-remove">Remover</a>
+        <a href="{{ url_for('dados_compra.lista_dados_compra', id=item_estoque.id_produto) }}" class="btn btn-secondary">Detalhes Compra</a>
+        <a href="{{ url_for('dados_venda.lista_dados_venda', id=item_estoque.id_produto) }}" class="btn btn-secondary">Detalhes Venda</a>
+    </div>
+</body>
+</html>

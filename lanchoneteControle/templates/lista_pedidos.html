@@ -1,0 +1,47 @@
+<!-- templates/lista_pedidos.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Pedidos</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seu CSS personalizado -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Lista de Pedidos</h1>
+        <a href="{{ url_for('pedidos.adiciona_pedido') }}" class="btn btn-primary mb-3">Adicionar Pedido</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Quantidade de Vendas</th>
+                    <th>Preço de Venda</th>
+                    <th>ID Cliente</th>
+                    <th>ID Funcionário</th>
+                    <th>ID Venda</th>
+                    <th>Data</th>
+                    <th>Valor</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for pedido in pedidos %}
+                    <tr>
+                        <td>{{ pedido.id_pedido }}</td>
+                        <td>{{ pedido.quantidade_vendas }}</td>
+                        <td>{{ pedido.preco_venda }}</td>
+                        <td>{{ pedido.id_cliente }}</td>
+                        <td>{{ pedido.id_funcionario }}</td>
+                        <td>{{ pedido.id_venda }}</td>
+                        <td>{{ pedido.data }}</td>
+                        <td>{{ pedido.valor }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

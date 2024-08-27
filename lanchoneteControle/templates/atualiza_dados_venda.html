@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Atualizar Preço de Venda</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Atualizar Preço de Venda</h2>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="preco_venda">Novo Preço de Venda</label>
+                {{ form.preco_venda(class="form-control") }}
+            </div>
+            <button type="submit" class="btn btn-primary">Atualizar</button>
+            <a href="{{ url_for('dados_venda.lista_dados_venda', id=dados_venda.id_produto) }}" class="btn btn-secondary">Cancelar</a>
+        </form>
+    </div>
+</body>
+</html>

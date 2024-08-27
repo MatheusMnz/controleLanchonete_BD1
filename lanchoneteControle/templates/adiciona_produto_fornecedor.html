@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Produto-Fornecedor</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Adicionar Produto-Fornecedor</h1>
+        <form method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+                <label for="id_produto">Produto:</label>
+                {{ form.id_produto(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="id_fornecedor">Fornecedor:</label>
+                {{ form.id_fornecedor(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="data">Data de Compra:</label>
+                {{ form.data(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <label for="preco_compra">Preço de Compra:</label>
+                {{ form.preco_compra(class="form-control") }}
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Adicionar</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Dados de Venda do Produto</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Dados de Venda do Produto</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID Venda</th>
+                    <th>Preço</th>
+                    <th>Data Início</th>
+                    <th>Data Fim</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for venda in dados_venda %}
+                <tr>
+                    <td>{{ venda.id_venda }}</td>
+                    <td>{{ venda.preco }}</td>
+                    <td>{{ venda.data_inicio }}</td>
+                    <td>{{ venda.data_fim }}</td>
+                    <td>
+                        <a href="{{ url_for('dados_venda.atualiza_dados_venda', id=venda.id_produto) }}" class="btn btn-primary">Editar</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('estoque.lista_estoque') }}" class="btn btn-secondary">Voltar ao Estoque</a>
+    </div>
+</body>
+</html>
