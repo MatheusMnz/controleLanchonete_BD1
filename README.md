@@ -49,6 +49,10 @@ python3 -m venv env
 
 ```bash
 source env/bin/activate
+
+cd lanchoneteControle/
  
 python3 app.py  
 ```
+
+caso de algum erro durante a inicializacao, rode os comandos de instalacao dos requisitos que forem apresentados no erro novamente
