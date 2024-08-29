@@ -1,0 +1,39 @@
+<!-- templates/lista_clientes.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Clientes</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Seu CSS personalizado -->
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Historico de Compras</h1>
+        <!-- <a href="{{ url_for('clientes.adiciona_cliente') }}" class="btn btn-primary mb-3">Adicionar Cliente</a> -->
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID_Produto</th>
+                    <th>Fornecedor</th>
+                    <th>Data</th>
+                    <th>Preço de Compra</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dado in historico_compras %}
+                    <tr>
+                        <td>{{ dado.id_produto }}</td>
+                        <td>{{ dado.id_fornecedor }}</td>
+                        <td>{{ dado.data }}</td>
+                        <td>{{ dado.preco_compra }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

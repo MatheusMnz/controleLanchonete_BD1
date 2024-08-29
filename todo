@@ -1,0 +1,18 @@
+CATEGORIA
+    -> Adicionar gerenciamento de categoria em estoque
+    -> Adicionar inserção de produto apenas com a existência de uma categoria
+    
+
+PEDIDOS
+    -> Formulario de adição de pedido sem alteração do preço manual e sim somar de acordo com os produtos
+
+
+Histórico de Compras
+    -> Filtro através de GROUP BY e o tipo do produto 
+    -> Remover o uso individual, agora tem que ir no histórico e filtrar pelo produto
+
+
+
+TRIGGERS 
+    -> Preço sugerido do produto calculado através de valor médio do preço de compras ( Adicionar preço sugerido em produto )
+    -> Adiciona um valor do pedido calculado através da consulta dos valores de produto quando adicionar um pedido

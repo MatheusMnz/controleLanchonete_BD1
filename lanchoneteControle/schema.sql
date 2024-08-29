@@ -49,15 +49,17 @@ CREATE TABLE IF NOT EXISTS produto_fornecedor (
     FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(id_fornecedor)
 );
 
--- Table for Venda (Sale)
-CREATE TABLE IF NOT EXISTS venda (
-    id_venda INTEGER PRIMARY KEY AUTOINCREMENT,
-    id_produto INTEGER NOT NULL,
-    preco REAL NOT NULL,
-    data_inicio DATE NOT NULL,
-    data_fim DATE,
-    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
-);
+
+-- Estava errado no diagrama, correção feita pelo Evandrino
+-- -- Table for Venda (Sale)
+-- CREATE TABLE IF NOT EXISTS venda (
+--     id_venda INTEGER PRIMARY KEY AUTOINCREMENT,
+--     id_produto INTEGER NOT NULL,
+--     preco REAL NOT NULL,
+--     data_inicio DATE NOT NULL,
+--     data_fim DATE,
+--     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+-- );
 
 -- Table for Pedido (Order)
 CREATE TABLE IF NOT EXISTS pedido (

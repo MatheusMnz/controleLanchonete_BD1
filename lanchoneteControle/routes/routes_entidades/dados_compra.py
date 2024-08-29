@@ -7,6 +7,16 @@ from forms.dados_compraForm import produtoPreco_Compra
 dados_compra_bp = Blueprint('dados_compra', __name__)
 
 
+@dados_compra_bp.route('/estoque/historico_compras/')
+def lista_hist_compras():
+    conn = get_db_connection()
+        # Gera uma consulta que contem todos os produtos
+    query = '''SELECT * FROM produto_fornecedor'''
+    historico_compras = conn.execute(query).fetchall()
+    conn.close()
+    # Renderiza a pagina de históricos
+    return render_template('historico_compras.html',historico_compras=historico_compras)
+
 @dados_compra_bp.route('/estoque/<int:id>/dados_compra')
 def lista_dados_compra(id):
     conn = get_db_connection()
