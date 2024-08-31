@@ -24,7 +24,7 @@ CREATE TABLE IF NOT EXISTS funcionario (
 -- Table for Produto (Product)
 CREATE TABLE IF NOT EXISTS produto (
     id_produto INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
+    nome_produto TEXT NOT NULL,
     descricao TEXT NOT NULL,
     categoria TEXT NOT NULL,
     quantidade_produto INTEGER NOT NULL
@@ -33,7 +33,7 @@ CREATE TABLE IF NOT EXISTS produto (
 -- Table for Fornecedor (Supplier)
 CREATE TABLE IF NOT EXISTS fornecedor (
     id_fornecedor INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome TEXT NOT NULL,
+    nome_fornecedor TEXT NOT NULL,
     endereco TEXT NOT NULL,
     contato TEXT NOT NULL
 );
