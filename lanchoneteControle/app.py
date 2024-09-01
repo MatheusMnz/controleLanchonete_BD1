@@ -11,7 +11,7 @@ csrf = CSRFProtect(app)
 
 # Registra os blueprints
 from routes import estoque_bp, dados_compra_bp, dados_venda_bp, clientes_bp, home_bp
-from routes import fornecedores_bp, pedidos_bp, produto_fornecedor_bp, vendas_bp
+from routes import fornecedores_bp, pedidos_bp, produto_fornecedor_bp
 app.register_blueprint(estoque_bp)
 app.register_blueprint(dados_venda_bp)
 app.register_blueprint(dados_compra_bp)
@@ -19,7 +19,6 @@ app.register_blueprint(clientes_bp)
 app.register_blueprint(fornecedores_bp)
 app.register_blueprint(pedidos_bp)
 app.register_blueprint(produto_fornecedor_bp)
-app.register_blueprint(vendas_bp)
 app.register_blueprint(home_bp)
 
 # Fecha a conexão com o banco de dados ao final da requisição

@@ -40,11 +40,12 @@ CREATE TABLE IF NOT EXISTS fornecedor (
 
 -- Table for Produto-Fornecedor Relationship
 CREATE TABLE IF NOT EXISTS produto_fornecedor (
+    id_compra INTEGER PRIMARY KEY AUTOINCREMENT, 
     id_produto INTEGER NOT NULL,
     id_fornecedor INTEGER NOT NULL,
     data DATE NOT NULL,
     preco_compra REAL NOT NULL,
-    PRIMARY KEY (id_produto, id_fornecedor),
+    quantidade INT NOT NULL DEFAULT 0,
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto),
     FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(id_fornecedor)
 );

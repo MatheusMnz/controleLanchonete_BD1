@@ -6,7 +6,6 @@ from .routes_entidades.clientes import clientes_bp
 from .routes_entidades.fornecedores import fornecedores_bp
 from .routes_entidades.pedidos import pedidos_bp
 from .routes_entidades.produto_fornecedor import produto_fornecedor_bp
-from .routes_entidades.vendas import vendas_bp
 from .routes_entidades.home import home_bp
 
 
@@ -19,6 +18,5 @@ __all__ = [
     'fornecedores_bp',
     'pedidos_bp',
     'produto_fornecedor_bp',
-    'vendas_bp',
     'home_bp'
 ]

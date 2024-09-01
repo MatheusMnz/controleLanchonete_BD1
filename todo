@@ -1,3 +1,7 @@
+PRODUTO
+    --> Form de adicionar produto 
+    --> Selecionar categoria por {SALGADO, DOCES, BEBIDAS, } 
+
 CATEGORIA
     -> Adicionar gerenciamento de categoria em estoque
     -> Adicionar inserção de produto apenas com a existência de uma categoria
@@ -11,8 +15,11 @@ Histórico de Compras
     -> Filtro através de GROUP BY e o tipo do produto 
     -> Remover o uso individual, agora tem que ir no histórico e filtrar pelo produto
 
+COMRPAS
+    -> Adicionar numero de produtos na compra
 
 
 TRIGGERS 
-    -> Preço sugerido do produto calculado através de valor médio do preço de compras ( Adicionar preço sugerido em produto )
-    -> Adiciona um valor do pedido calculado através da consulta dos valores de produto quando adicionar um pedido
+-> Preço sugerido do produto calculado através de valor médio do preço de compras ( Adicionar preço sugerido em produto )
+-> Adiciona um valor do pedido calculado através da consulta dos valores de produto quando adicionar um pedido
+-> Alterar automaticamente em estoque a medida que o produto for inserido no historico de compras

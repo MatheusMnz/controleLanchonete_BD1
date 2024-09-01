@@ -55,6 +55,7 @@ def adiciona_produto():
     form = ProdutoForm()
     conn = get_db_connection()
 
+    form.categoria.choices = ["SALGADOS","DOCES","BEBIDAS"]
     if request.method == 'POST':
         if form.validate_on_submit():  # Verifica se o formulário foi enviado e é válido
             # Extrai os dados do formulário
@@ -72,7 +73,7 @@ def adiciona_produto():
             conn.close()
 
             flash('Produto adicionado com sucesso!', 'success')
-            return redirect(url_for('estoque.adiciona_produto'))
+            return redirect(url_for('estoque.lista_estoque'))
     
     return render_template('adiciona_produto.html', form=form)
 

@@ -7,19 +7,20 @@ from forms.dados_compraForm import produtoPreco_Compra
 dados_compra_bp = Blueprint('dados_compra', __name__)
 
 
-@dados_compra_bp.route('/estoque/historico_compras/')
+@dados_compra_bp.route('/compras/')
 def lista_hist_compras():
     conn = get_db_connection()
-        # Gera uma consulta que contem todos os produtos
-    query_hist = '''SELECT pf.*, f.nome 
-    FROM produto_fornecedor pf INNER JOIN fornecedor f ON pf.id_fornecedor = f.id_fornecedor'''
+    # Gera uma consulta que contem todos os produtos
+    query_hist = '''SELECT pf.*, f.nome AS nome_fornecedor, p.nome AS nome_produto 
+    FROM produto_fornecedor pf INNER JOIN fornecedor f ON pf.id_fornecedor = f.id_fornecedor INNER JOIN produto p ON p.id_produto = pf.id_produto '''
     historico_compras = conn.execute(query_hist).fetchall()
     
-    query_compras = '''SELECT p.id_produto, p.nome FROM produto p INNER JOIN produto_fornecedor pf ON p.id_produto = pf.id_produto'''
+    query_compras = '''SELECT id_produto, nome FROM produto WHERE id_produto = (SELECT id_produto FROM produto_fornecedor)'''
     produtos = conn.execute(query_compras).fetchall()
     conn.close()
     # Renderiza a pagina de históricos
     return render_template('historico_compras.html',historico_compras=historico_compras, produtos=produtos)
+
 
 @dados_compra_bp.route('/estoque/<int:id>/dados_compra')
 def lista_dados_compra(id):
