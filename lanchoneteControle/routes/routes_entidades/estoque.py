@@ -33,6 +33,13 @@ def atualiza_estoque(id):
     item_estoque = conn.execute('SELECT * FROM produto WHERE id_produto = ?', (id,)).fetchone()
     form = ProdutoForm()
 
+    if request.method == 'GET':
+        form.nome.data = item_estoque['nome']
+        form.preco_venda.data = item_estoque['preco_venda']
+        form.categoria.data = item_estoque['categoria']
+        form.quantidade_produto.data = item_estoque['quantidade_produto']
+        form.descricao.data = item_estoque['descricao']
+    
     if request.method == 'POST':
         nome = request.form['nome']
         descricao = request.form['descricao']
@@ -55,20 +62,20 @@ def adiciona_produto():
     form = ProdutoForm()
     conn = get_db_connection()
 
-    form.categoria.choices = ["SALGADOS","DOCES","BEBIDAS"]
     if request.method == 'POST':
-        if form.validate_on_submit():  # Verifica se o formulário foi enviado e é válido
+        # Verifica se o formulário foi enviado e é válido
+        if form.validate_on_submit():  
             # Extrai os dados do formulário
             nome = form.nome.data
             descricao = form.descricao.data
             categoria = form.categoria.data
             quantidade_produto = form.quantidade_produto.data
-
+            preco_venda = form.preco_venda.data
 
             conn.execute('''
-                INSERT INTO produto (nome, descricao, categoria, quantidade_produto)
-                VALUES (?, ?, ?, ?)
-            ''', (nome, descricao, categoria, quantidade_produto))
+                INSERT INTO produto (nome, descricao, categoria, quantidade_produto, preco_venda)
+                VALUES (?, ?, ?, ?, ?)
+            ''', (nome, descricao, categoria, quantidade_produto,preco_venda))
             conn.commit()
             conn.close()
 

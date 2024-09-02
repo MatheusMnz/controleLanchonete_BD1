@@ -15,7 +15,7 @@ def lista_hist_compras():
     FROM produto_fornecedor pf INNER JOIN fornecedor f ON pf.id_fornecedor = f.id_fornecedor INNER JOIN produto p ON p.id_produto = pf.id_produto '''
     historico_compras = conn.execute(query_hist).fetchall()
     
-    query_compras = '''SELECT id_produto, nome FROM produto WHERE id_produto = (SELECT id_produto FROM produto_fornecedor)'''
+    query_compras = '''SELECT id_produto, nome FROM produto WHERE id_produto IN (SELECT id_produto FROM produto_fornecedor)'''
     produtos = conn.execute(query_compras).fetchall()
     conn.close()
     # Renderiza a pagina de históricos

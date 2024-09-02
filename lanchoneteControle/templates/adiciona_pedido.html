@@ -3,42 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar Pedido</title>
-    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Criar Pedido</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h1>Adicionar Pedido</h1>
-        <form method="post">
-            {{ form.hidden_tag() }}
+    <div class="container mt-5">
+        <h1 class="text-center">Criar Pedido</h1>
+        <form method="POST" id="pedido-form">
+            {{ form.hidden_tag() }} <!-- CSRF Token -->
+            
+            <input type="hidden" id="produtos-data" name="produtos_data">
+
             <div class="form-group">
-                <label for="quantidade_vendas">Quantidade de Vendas:</label>
-                {{ form.quantidade_vendas(class="form-control") }}
-            </div>
-            <div class="form-group">
-                <label for="preco_venda">Preço de Venda:</label>
-                {{ form.preco_venda(class="form-control") }}
-            </div>
-            <div class="form-group">
-                <label for="id_cliente">Cliente:</label>
+                <label for="id_cliente">ID do Cliente</label>
                 {{ form.id_cliente(class="form-control") }}
             </div>
+            
             <div class="form-group">
-                <label for="id_funcionario">Funcionário:</label>
+                <label for="id_funcionario">ID do Funcionário</label>
                 {{ form.id_funcionario(class="form-control") }}
             </div>
+
             <div class="form-group">
-                <label for="data">Data do Pedido:</label>
+                <label for="data">Data</label>
                 {{ form.data(class="form-control") }}
             </div>
-            <div class="form-group">
-                <label for="valor">Valor Total:</label>
-                {{ form.valor(class="form-control") }}
+            <h3>Produtos</h3>
+            <!-- Produtos adicionados com scroll -->
+            <div id="produtos-adicionados" class=" overflow-auto p-3" style="max-height: 400px;">
+            
+            <!-- Produtos adicionados serão exibidos aqui -->
             </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Adicionar Pedido</button>
+            
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <button type="button" id="show-products-btn" class="btn btn-secondary mr-3">Adicionar Produto</button>
+                <button type="submit" class="btn btn-primary">Finalizar Pedido</button>
             </div>
+            
         </form>
+
+        <!-- Modal para seleção de produtos -->
+        <div class="modal fade" id="productsModal" tabindex="-1" role="dialog" aria-labelledby="productsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="productsModalLabel">Lista de Produtos</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Preço</th>
+                                    <th>Descrição</th>
+                                    <th>Adicionar</th>
+                                </tr>
+                            </thead>
+                            <tbody id="productsTableBody">
+                                <!-- Linhas de produtos serão adicionadas aqui via JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+         $(document).ready(function() {
+            // Mostrar o modal com a lista de produtos
+            $('#show-products-btn').on('click', function() {
+                $.ajax({
+                    url: '/produtos', // Ajuste para a URL onde seus produtos estão disponíveis
+                    method: 'GET',
+                    success: function(data) {
+                        const tableBody = $('#productsTableBody');
+                        tableBody.empty(); // Limpa o corpo da tabela
+
+                        data.forEach(function(produto) {
+                            const row = `
+                                <tr>
+                                    <td>${produto.id}</td>
+                                    <td>${produto.nome}</td>
+                                    <td>${produto.preco}</td>
+                                    <td>${produto.descricao}</td>
+                                    <td><button class="btn btn-primary btn-sm" onclick="adicionarProduto(${produto.id}, '${produto.nome}', ${produto.preco})">Adicionar</button></td>
+                                </tr>
+                            `;
+                            tableBody.append(row);
+                        });
+
+                        $('#productsModal').modal('show'); // Mostra o modal
+                    },
+                    error: function() {
+                        alert('Erro ao buscar produtos.');
+                    }
+                });
+            });
+
+            // Atualizar o campo oculto antes de enviar o formulário
+            $('#pedido-form').on('submit', function(e) {
+                e.preventDefault();
+                if(atualizarHiddenField()) // Atualiza o campo oculto com os dados mais recentes
+                {
+                    this.submit();
+                }
+                else
+                {
+                    alert('Nenhum produto foi adicionado.');
+                }
+                // Se precisar fazer mais validações, faça aqui
+
+                // O formulário será enviado após a função acima
+            });
+        });
+    
+        function adicionarProduto(id, nome, preco) {
+            const produtosAdicionados = $('#produtos-adicionados');
+            const index = $('.produto-item').length;
+    
+            // Verifica se o produto já está na lista
+            if ($(`#produto-${id}`).length === 0) {
+                const produtoItem = `
+                    <div id="produto-${id}" class="produto-item mb-2">
+                        <div class="form-group">
+                            <label>Produto</label>
+                            <input type="text" class="form-control" value="${nome}" readonly>
+                            <input type="hidden" name="produtos[${index}][id_produto]" value="${id}">
+                        </div>
+                        <div class="form-group">
+                            <label>Quantidade</label>
+                            <input type="number" class="form-control" name="produtos[${index}][quantidade]" min="1" value="1">
+                        </div>
+                        <button type="button" class="btn btn-danger btn-sm" onclick="removerProduto(${id})">Remover</button>
+                        <hr>
+                    </div>
+                `;
+                produtosAdicionados.append(produtoItem);
+                $('#productsModal').modal('hide'); // Fecha o modal
+                // atualizarHiddenField();
+            } else {
+                alert('Produto já adicionado.');
+            }
+        }
+    
+        function removerProduto(id) {
+            $(`#produto-${id}`).remove();
+            atualizarHiddenField();
+        }
+        
+        function atualizarHiddenField() {
+            const produtosData = [];
+            
+            // Itera sobre cada produto adicionado
+            $('#produtos-adicionados .produto-item').each(function() {
+                const id_produto = $(this).find('input[name$="[id_produto]"]').val();
+                const quantidade = $(this).find('input[name$="[quantidade]"]').val();
+                produtosData.push({ id_produto, quantidade });
+            });
+            
+            // Verifica se o array está vazio
+            if (produtosData.length === 0) {
+                return false; // Retorna false se nenhum produto foi adicionado
+            }
+            
+            // Se produtos foram adicionados, converte para JSON e atualiza o campo oculto
+            const produtosDataString = JSON.stringify(produtosData);
+            $('#produtos_data').val(produtosDataString);
+            
+            // Mostrar o valor atual do campo oculto para depuração (opcional)
+            // alert('Dados do campo oculto produtos_data: ' + produtosDataString);
+
+            return true; // Retorna true se produtos foram adicionados
+        }
+    </script>
+    
 </body>
 </html>

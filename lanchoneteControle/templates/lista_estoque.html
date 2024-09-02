@@ -7,6 +7,7 @@
             <th>Descrição</th>
             <th>Categoria</th>
             <th>Quantidade</th>
+            <th>Preço</th>
             <th>Ações</th>
         </tr>
     </thead>
@@ -18,10 +19,11 @@
             <td>{{ produto.descricao }}</td>
             <td>{{ produto.categoria }}</td>
             <td>{{ produto.quantidade_produto }}</td>
+            <td>{{ produto.preco_venda }}</td>
             <td>
-                <a href="{{ url_for('estoque.atualiza_estoque', id=produto.id_produto) }}" class="btn btn-primary">Editar</a>
+                <!-- <a href="{{ url_for('estoque.atualiza_estoque', id=produto.id_produto) }}" class="btn btn-primary">Editar</a> -->
                 <a href="{{ url_for('estoque.detalhe_estoque', id=produto.id_produto) }}" class="btn btn-info">Detalhes</a>
-                <a href="{{ url_for('estoque.confirma_remocao', id=produto.id_produto) }}" class="btn btn-remove">Remover</a>
+                <!-- <a href="{{ url_for('estoque.confirma_remocao', id=produto.id_produto) }}" class="btn btn-remove">Remover</a> -->
             </td>
         </tr>
         {% endfor %}

@@ -22,12 +22,13 @@ CREATE TABLE IF NOT EXISTS funcionario (
 );
 
 -- Table for Produto (Product)
-CREATE TABLE IF NOT EXISTS produto (
-    id_produto INTEGER PRIMARY KEY AUTOINCREMENT,
-    nome_produto TEXT NOT NULL,
-    descricao TEXT NOT NULL,
-    categoria TEXT NOT NULL,
-    quantidade_produto INTEGER NOT NULL
+CREATE TABLE IF NOT EXISTS produto ( 
+    id_produto INTEGER PRIMARY KEY AUTOINCREMENT, 
+    nome TEXT NOT NULL, 
+    descricao TEXT NOT NULL, 
+    categoria TEXT NOT NULL, 
+    quantidade_produto INTEGER NOT NULL , 
+    preco_venda REAL NOT NULL DEFAULT 0
 );
 
 -- Table for Fornecedor (Supplier)
@@ -72,6 +73,7 @@ CREATE TABLE IF NOT EXISTS pedido (
     id_venda INTEGER NOT NULL,
     data DATE NOT NULL,
     valor REAL NOT NULL,
+    status TEXT NOT NULL DEFAULT Aberto,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
     FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario),
     FOREIGN KEY (id_venda) REFERENCES venda(id_venda)
