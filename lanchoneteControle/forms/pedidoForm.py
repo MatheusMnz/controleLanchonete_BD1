@@ -10,7 +10,7 @@ from wtforms.validators import DataRequired, NumberRange
 
 class PedidoForm(FlaskForm):
     id_cliente = IntegerField('ID do Cliente', validators=[DataRequired()])
-    id_funcionario = IntegerField('ID do Funcionário', validators=[DataRequired()])
+    id_funcionario = SelectField('ID do Funcionário', choices=[], validators=[DataRequired()])
     data = DateField('Data', format='%Y-%m-%d', validators=[DataRequired()])
     # produtos = FieldList(FormField(ProdutoForm), min_entries=1)
     produtos_data = HiddenField()

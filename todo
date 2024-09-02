@@ -1,3 +1,14 @@
+CRUD PRODUTO
+CRUD COMPRAS
+CRUD PEDIDO
+CRUD CLIENTE
+CRUD FUNCIONARIO
+CRUD FORNECEDOR
+CRUD PRODUTO_FORNECEDOR
+
+
+
+
 PRODUTO
     --> Form de adicionar produto (FEITO)
     --> Selecionar categoria por {SALGADO, DOCES, BEBIDAS, } (FEITO)
@@ -6,19 +17,10 @@ PRODUTO
 PEDIDOS
     -> Formulario de adição de pedido sem alteração do preço manual e sim somar de acordo com os produtos () 
     -> Possibilidade de alterar o estado do PEDIDO
-    -> Inserção ()
-    -> Remoção ()
-    -> Atualização ()
-
-
 
 Histórico de Compras
     -> Filtro através de GROUP BY e o tipo do produto (FEITO) 
     -> Remover o uso individual, agora tem que ir no histórico e filtrar pelo produto (FEITO)
-    
-    -> Inserção ( FEITO )
-    -> Remoção ()
-    -> Atualização ()
 
 TRIGGERS 
 -> Preço sugerido do produto calculado através de valor médio do preço de compras ( Adicionar preço sugerido em produto )

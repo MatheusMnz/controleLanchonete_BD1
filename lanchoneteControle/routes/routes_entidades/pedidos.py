@@ -23,6 +23,14 @@ def listar_produtos():
 @pedidos_bp.route('/pedidos/adicionarPedido', methods=('GET', 'POST'))
 def adiciona_pedido():
     form = PedidoForm()
+    conn = get_db_connection()
+
+    if request.method == 'GET':
+        print("Preenchendo Valores")
+        funcionarios = conn.execute('''SELECT pessoa.nome, funcionario.id_funcionario 
+                                    FROM pessoa INNER JOIN funcionario ON pessoa.id_pessoa = funcionario.id_pessoa''').fetchall()
+        form.id_funcionario.choices = [(funcionario['id_funcionario'],f"{funcionario['id_funcionario']} - {funcionario['nome']}") for funcionario in funcionarios]
+
 
     if request.method == 'POST':
         print("AGGGGGGGGGGGGg")
