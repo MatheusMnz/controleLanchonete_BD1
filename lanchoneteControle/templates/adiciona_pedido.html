@@ -36,16 +36,25 @@
                 <label for="data">Data</label>
                 {{ form.data(class="form-control") }}
             </div>
-            <h3>Produtos</h3>
+
+            <div class="d-flex justify-content-between mt-3 mb-3">
+                <h1>Produtos</h1>
+                <div class="form-group">
+                    <label for="preco_total">Preço Total</label>
+
+                    <!-- <input type="text" id="preco_total" class="form-control" readonly value="0.00"> -->
+                    {{ form.preco_total(class_="form-control", id = "preco_total", readonly = True, value = "0.00") }}
+                </div>
+            </div>
+
             <!-- Produtos adicionados com scroll -->
-            <div id="produtos-adicionados" class=" border overflow-auto p-3" style="min-height: 400px; max-height: 400px;">
+            <div id="lista_produtos" class=" border overflow-auto p-3" style="min-height: 400px; max-height: 400px;">
                 
+                 
                 <div class="overflow-auto p-3 d-flex justify-content-center align-items-center" style="min-height: 300px; max-height: 300px;">
                     <h1 class="m-0">Nenhum Produto Foi Adicionado !</h1>
-                    <!-- Produtos adicionados serão exibidos aqui -->
-                </div>
-            <!-- Produtos adicionados serão exibidos aqui -->
-            </div>
+                </div>             
+            </div> 
             
             <div class="d-flex justify-content-center mt-3 mb-3">
                 <button type="button" id="show-products-btn" class="btn btn-danger mr-3" style="font-size: 24px;">Adicionar Produto</button>
@@ -161,45 +170,90 @@
         });
     
         function adicionarProduto(id, nome, preco) {
-            const produtosAdicionados = $('#produtos-adicionados');
-            const index = $('.produto-item').length;
-            
-            // Verifica se nenhum produto foi adicionado e limpa 
-            if (produtosAdicionados.length === 1 && div_limpa === false)
-            {
-                alert("ASDDDDDDDDD");
-                $('#produtos-adicionados').empty();
-                div_limpa = true;
-            }
+            // const produtosAdicionados = $('#produtos-adicionados');
 
-            // Verifica se o produto já está na lista
+            if(div_limpa === false)
+            {            
+                const lista_produtos = $('#lista_produtos');
+                lista_produtos.empty();
+                div_limpa = true;        
+                
+                const produtosTable = `
+                <table class="table table-bordered" id="produtos-tabela">
+                    <thead>
+                        <tr>
+                            <th>Produto</th>
+                            <th>Quantidade</th>
+                            <th>Preço Unitário</th>
+                            <th>Preço Total</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="produtos-adicionados">
+                        <!-- Linhas de produtos adicionadas dinamicamente -->
+                    </tbody>
+                </table>
+                `;
+                lista_produtos.append(produtosTable);
+            }            
+            const produtosAdicionados = $('#produtos-adicionados');
+
+            // Verifica se o produto já foi adicionado
             if ($(`#produto-${id}`).length === 0) {
                 const produtoItem = `
-                    <div id="produto-${id}" class="produto-item mb-2">
-                        <div class="form-group">
-                            <label>Produto</label>
-                            <input type="text" class="form-control" value="${nome}" readonly>
-                            <input type="hidden" name="produtos[${index}][id_produto]" value="${id}">
-                        </div>
-                        <div class="form-group">
-                            <label>Quantidade</label>
-                            <input type="number" class="form-control" name="produtos[${index}][quantidade]" min="1" value="1">
-                        </div>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="removerProduto(${id})">Remover</button>
-                        <hr>
-                    </div>
+                    <tr id="produto-${id}" class="produto-item">
+                        <td>${nome} <input type="hidden" name="produtos[${id}][id_produto]" value="${id}"></td>
+                        <td><input type="number" class="form-control quantidade-produto" name="produtos[${id}][quantidade]" min="1" value="1" onchange="atualizarPrecoTotal(${id}, ${preco})"></td>
+                        <td>${preco.toFixed(2)}</td>
+                        <td class="preco-total-produto">${preco.toFixed(2)}</td>
+                        <td><button type="button" class="btn btn-danger btn-sm" onclick="removerProduto(${id})">Remover</button></td>
+                    </tr>
                 `;
-                produtosAdicionados.append(produtoItem);
+                produtosAdicionados.append(produtoItem); 
+
+                atualizarPrecoTotal(); // Atualiza o preço total após a adição do produto
                 $('#productsModal').modal('hide'); // Fecha o modal
-                // atualizarHiddenField();
             } else {
                 alert('Produto já adicionado.');
             }
         }
-    
+
         function removerProduto(id) {
             $(`#produto-${id}`).remove();
-            atualizarHiddenField();
+            if(div_limpa && $('#produtos-tabela tbody tr').length === 0)
+            {
+                const lista_produtos = $('#lista_produtos');
+                lista_produtos.empty();
+                lista_produtos.append(
+                    `
+                    <div class="overflow-auto p-3 d-flex justify-content-center align-items-center" style="min-height: 300px; max-height: 300px;">
+                        <h1 class="m-0">Nenhum Produto Foi Adicionado !</h1>
+                    </div> 
+                    `
+                );   
+                div_limpa = false;
+            }
+            atualizarPrecoTotal(); // Atualiza o preço total após a remoção do produto
+        }
+
+        function atualizarPrecoTotal() {
+            let total = 0;
+            $('#produtos-adicionados .produto-item').each(function() {
+                const preco = parseFloat($(this).find('td:eq(2)').text());
+                const quantidade = parseInt($(this).find('.quantidade-produto').val());
+                const precoTotal = preco * quantidade;
+                
+                // Atualiza o valor na coluna "Preço Total" do produto
+                $(this).find('.preco-total-produto').text(precoTotal.toFixed(2));
+                
+                // Acumula o total geral
+                total += precoTotal;
+            });
+
+            console.log("Novo total calculado: " + total.toFixed(2)); // Debug
+
+            $('#preco_total').val(total.toFixed(2));  // Atualiza o campo de preço total
+            console.log("Valor do campo preco_total atualizado para: " + $('#preco_total').val());
         }
         
         function atualizarHiddenField() {
@@ -209,14 +263,15 @@
             $('#produtos-adicionados .produto-item').each(function() {
                 const id_produto = $(this).find('input[name$="[id_produto]"]').val();
                 const quantidade = $(this).find('input[name$="[quantidade]"]').val();
-                produtosData.push({ id_produto, quantidade });
+                const preco = $(this).find('td:eq(2)').text();
+                produtosData.push({ id_produto, quantidade, preco });
             });
             
             // Verifica se o array está vazio
             if (produtosData.length === 0) {
                 return false; // Retorna false se nenhum produto foi adicionado
             }
-            
+            console.log(produtosData);
             // Se produtos foram adicionados, converte para JSON e atualiza o campo oculto
             const produtosDataString = JSON.stringify(produtosData);
             $('#produtos_data').val(produtosDataString);

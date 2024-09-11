@@ -14,5 +14,6 @@ class PedidoForm(FlaskForm):
     data = DateField('Data', format='%Y-%m-%d', validators=[DataRequired()])
     # produtos = FieldList(FormField(ProdutoForm), min_entries=1)
     produtos_data = HiddenField()
+    preco_total = FloatField('Preço Total',validators=[DataRequired()])
     submit = SubmitField('Adicionar Produto')
 

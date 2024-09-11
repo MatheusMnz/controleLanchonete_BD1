@@ -64,28 +64,26 @@ CREATE TABLE IF NOT EXISTS produto_fornecedor (
 -- );
 
 -- Table for Pedido (Order)
-CREATE TABLE IF NOT EXISTS pedido (
-    id_pedido INTEGER PRIMARY KEY AUTOINCREMENT,
-    quantidade_vendas INTEGER NOT NULL,
-    preco_venda REAL NOT NULL,
+CREATE TABLE IF NOT EXISTS pedido ( 
+    id_pedido INTEGER PRIMARY KEY AUTOINCREMENT, 
+    valor REAL NOT NULL,
+    data DATE NOT NULL,
+    status TEXT NOT NULL DEFAULT Aberto,
     id_cliente INTEGER NOT NULL,
     id_funcionario INTEGER NOT NULL,
-    id_venda INTEGER NOT NULL,
-    data DATE NOT NULL,
-    valor REAL NOT NULL,
-    status TEXT NOT NULL DEFAULT Aberto,
     FOREIGN KEY (id_cliente) REFERENCES cliente(id_cliente),
-    FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario),
-    FOREIGN KEY (id_venda) REFERENCES venda(id_venda)
+    FOREIGN KEY (id_funcionario) REFERENCES funcionario(id_funcionario)
 );
 
+
 -- Table for Pedido-Produto Relationship
-CREATE TABLE IF NOT EXISTS pedido_produto (
-    id_pedido INTEGER NOT NULL,
-    id_produto INTEGER NOT NULL,
-    quantidade_vendas INTEGER NOT NULL,
-    preco_venda REAL NOT NULL,
-    PRIMARY KEY (id_pedido, id_produto),
-    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido),
-    FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
+CREATE TABLE IF NOT EXISTS pedido_produto ( 
+    id_pedido INTEGER NOT NULL, 
+    id_produto INTEGER NOT NULL, 
+    quantidade_vendas INTEGER NOT NULL, 
+    preco_venda REAL NOT NULL, 
+    PRIMARY KEY (id_pedido, id_produto), 
+    FOREIGN KEY (id_pedido) REFERENCES pedido(id_pedido), 
+    FOREIGN KEY (id_produto) REFERENCES produto(id_produto) 
 );
+

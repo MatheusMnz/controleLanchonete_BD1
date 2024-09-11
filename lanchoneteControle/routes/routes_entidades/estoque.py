@@ -33,24 +33,30 @@ def atualiza_estoque(id):
     item_estoque = conn.execute('SELECT * FROM produto WHERE id_produto = ?', (id,)).fetchone()
     form = ProdutoForm()
 
-    if request.method == 'GET':
-        form.nome.data = item_estoque['nome']
-        form.preco_venda.data = item_estoque['preco_venda']
-        form.categoria.data = item_estoque['categoria']
-        form.quantidade_produto.data = item_estoque['quantidade_produto']
-        form.descricao.data = item_estoque['descricao']
     
-    if request.method == 'POST':
-        nome = request.form['nome']
-        descricao = request.form['descricao']
-        categoria = request.form['categoria']
-        quantidade_produto = request.form['quantidade_produto']
+    form.nome.data = item_estoque['nome']
+    form.preco_venda.data = item_estoque['preco_venda']
+    form.categoria.data = item_estoque['categoria']
+    form.quantidade_produto.data = item_estoque['quantidade_produto']
+    form.descricao.data = item_estoque['descricao']
 
-        conn.execute('UPDATE produto SET nome = ?, descricao = ?, categoria = ?, quantidade_produto = ? WHERE id_produto = ?',
-                     (nome, descricao, categoria, quantidade_produto, id))
-        conn.commit()
-        conn.close()
-        return redirect(url_for('estoque.detalhe_estoque', id=id))
+    if request.method == 'POST':
+
+        if form.validate_on_submit():
+            print("validate!")
+            nome = request.form['nome']
+            descricao = request.form['descricao']
+            categoria = request.form['categoria']
+            quantidade_produto = request.form['quantidade_produto']
+            preco_venda = request.form['preco_venda']
+
+            conn.execute('''UPDATE produto 
+                            SET nome = ?, descricao = ?, categoria = ?, quantidade_produto = ?, preco_venda = ? 
+                            WHERE id_produto = ?''',
+                        (nome, descricao, categoria, quantidade_produto,preco_venda, id))
+            conn.commit()
+            conn.close()
+            return redirect(url_for('estoque.detalhe_estoque', id=id))
 
     conn.close()
     return render_template('atualiza_estoque.html', form=form, item_estoque=item_estoque)
