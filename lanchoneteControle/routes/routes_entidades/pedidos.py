@@ -110,20 +110,21 @@ def adiciona_pedido():
 @pedidos_bp.route('/pedidos/atualizar_status', methods=['POST'])
 def atualizar_status_pedido():
     data = request.get_json()
+    print(data)
     id_pedido = data.get('id_pedido')
     novo_status = data.get('novo_status')
 
-    conn = get_db_connection()
     print(id_pedido,novo_status)
 
-    query = conn.execute(f"UPDATE pedido SET status={novo_status} WHERE pedido.id_pedido={id_pedido}; ")
-    conn.commit()
-    conn.close()
-    if query:
-        return jsonify({'success': True}), 200
-    else:
-        return jsonify({'error': 'Pedido não encontrado'}), 404
-    # return jsonify({'success': True}), 200
+    # conn = get_db_connection()
+    # query = conn.execute(f"UPDATE pedido SET status={novo_status} WHERE pedido.id_pedido={id_pedido}; ")
+    # conn.commit()
+    # conn.close()
+    # if query:
+    #     return jsonify({'success': True}), 200
+    # else:
+    #     return jsonify({'error': 'Pedido não encontrado'}), 404
+    return jsonify({'success': True}), 200
 
 @pedidos_bp.route('/pedidos/itens/<int:id_pedido>', methods=['GET'])
 def get_itens_pedido(id_pedido):

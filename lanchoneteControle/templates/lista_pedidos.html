@@ -12,11 +12,9 @@
     <!-- Incluir JS do Bootstrap -->
       <!-- Bootstrap JS e dependências -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
-
-
-
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Seu CSS personalizado -->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
@@ -62,12 +60,13 @@
                             <td>{{ pedido.id_cliente }}</td>
                             <td>{{ pedido.id_funcionario }}</td>
                             <td>
-                                <button type="button" class="btn btn-secondary" onclick="verItens({{ pedido.id_pedido }})">Ver Itens</button>
+                                <button type="button" class="btn btn-dark" onclick="verItens({{ pedido.id_pedido }})">Ver Itens</button>
                                 <button id="button_status" type="button" class="btn btn-primary" onclick="atualizarStatus({{ pedido.id_pedido }}, '{{ pedido.status }}')">
                                         {% if pedido.status == "Aberto" %}
                                             Atender
                                         {% elif pedido.status == "Em Processamento" %}
                                             Entregar
+                                        {% endif %}
                                 </button>
                             </td>
                         </tr>
@@ -118,6 +117,8 @@
                 alert('Ação não disponível para o status atual.');
                 return;
             }
+
+            alert("Novo Status : " + novo_status);
 
             // Fazer uma requisição AJAX para atualizar o status do pedido no servidor
             fetch(`/pedidos/atualizar_status`, {
