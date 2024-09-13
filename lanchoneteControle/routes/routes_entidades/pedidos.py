@@ -33,7 +33,7 @@ def adiciona_pedido():
 
 
     if request.method == 'POST':
-        print("AGGGGGGGGGGGGg")
+
         if form.validate_on_submit():
             id_cliente = form.id_cliente.data
             id_funcionario = form.id_funcionario.data
@@ -80,31 +80,7 @@ def adiciona_pedido():
                 return redirect(url_for('pedidos.lista_pedidos'))
 
     return render_template('adiciona_pedido.html', form=form)
-    # form = PedidoForm()
-    # conn = get_db_connection()
 
-
-    # if request.method == 'POST':
-    #     if form.validate_on_submit():
-    #         quantidade_vendas = form.quantidade_vendas.data
-    #         preco_venda = form.preco_venda.data
-    #         id_cliente = form.id_cliente.data
-    #         id_funcionario = form.id_funcionario.data
-    #         id_venda = form.id_venda.data
-    #         data = form.data.data
-
-    
-    #         conn.execute('''
-    #             INSERT INTO pedido (quantidade_vendas, preco_venda, id_cliente, id_funcionario, id_venda, data, valor)
-    #             VALUES (?, ?, ?, ?, ?, ?, ?)
-    #         ''', (quantidade_vendas, preco_venda, id_cliente, id_funcionario, id_venda, data, valor))
-    #         conn.commit()
-    #         conn.close()
-
-    #         flash('Pedido adicionado com sucesso!', 'success')
-    #         return redirect(url_for('pedidos.lista_pedidos'))
-    
-    # return render_template('adiciona_pedido.html', form=form)
 
 
 @pedidos_bp.route('/pedidos/atualizar_status', methods=['POST'])

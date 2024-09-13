@@ -52,17 +52,6 @@ CREATE TABLE IF NOT EXISTS produto_fornecedor (
 );
 
 
--- Estava errado no diagrama, correção feita pelo Evandrino
--- -- Table for Venda (Sale)
--- CREATE TABLE IF NOT EXISTS venda (
---     id_venda INTEGER PRIMARY KEY AUTOINCREMENT,
---     id_produto INTEGER NOT NULL,
---     preco REAL NOT NULL,
---     data_inicio DATE NOT NULL,
---     data_fim DATE,
---     FOREIGN KEY (id_produto) REFERENCES produto(id_produto)
--- );
-
 -- Table for Pedido (Order)
 CREATE TABLE IF NOT EXISTS pedido ( 
     id_pedido INTEGER PRIMARY KEY AUTOINCREMENT, 
@@ -87,3 +76,82 @@ CREATE TABLE IF NOT EXISTS pedido_produto (
     FOREIGN KEY (id_produto) REFERENCES produto(id_produto) 
 );
 
+
+
+    -- triggers
+
+
+    -- Criação do trigger para atualizar o estoque ao inserir uma compra
+
+    CREATE TRIGGER IF NOT EXISTS atualiza_estoque_venda
+    AFTER INSERT ON pedido_produto
+    BEGIN
+        UPDATE produto
+        SET quantidade_produto = quantidade_produto - NEW.quantidade_vendas
+        WHERE id_produto = NEW.id_produto;
+    END;
+
+
+
+    -- Criação do trigger para calcular o valor total do pedido
+    
+    CREATE TRIGGER IF NOT EXISTS calcula_valor_pedido
+    AFTER INSERT ON pedido
+    BEGIN
+        UPDATE pedido
+        SET valor = (
+            SELECT SUM(pd.quantidade_vendas * p.preco_venda)
+            FROM pedido_produto pd
+            JOIN produto p ON pd.id_produto = p.id_produto
+            WHERE pd.id_pedido = NEW.id_pedido
+        )
+        WHERE id_pedido = NEW.id_pedido;
+    END;
+    
+
+    -- Criação do trigger para atualizar o estoque ao vender um produto
+    
+    CREATE TRIGGER IF NOT EXISTS atualiza_estoque_pedido
+    AFTER INSERT ON pedido
+    BEGIN
+        UPDATE produto
+        SET quantidade_produto = quantidade_produto - (
+            SELECT SUM(pd.quantidade_vendas)
+            FROM pedido_produto pd
+            WHERE pd.id_produto = produto.id_produto
+            AND pd.id_pedido = NEW.id_pedido
+        )
+        WHERE id_produto IN (
+            SELECT id_produto
+            FROM pedido_produto
+            WHERE id_pedido = NEW.id_pedido
+        );
+    END;
+
+
+    -- Criação do trigger para verificar se o CPF é válido
+
+    CREATE TRIGGER IF NOT EXISTS verifica_cpf_valido
+    BEFORE INSERT ON pessoa
+    BEGIN
+        SELECT CASE
+            WHEN NEW.cpf NOT LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
+            THEN RAISE(ABORT, 'CPF inválido')
+        END;
+    END;
+
+
+    -- Criação do trigger para verificar a quantidade de vendas
+    CREATE TRIGGER IF NOT EXISTS verifica_quantidade_vendas
+    AFTER INSERT ON pedido_produto
+    BEGIN
+        DECLARE quantidade_vendas INTEGER;
+        SELECT quantidade_vendas INTO quantidade_vendas
+        FROM pedido_produto
+        WHERE id_pedido = NEW.id_pedido
+        AND id_produto = NEW.id_produto;
+        
+        IF quantidade_vendas < 5 THEN
+            PRINT 'Atenção: A quantidade de vendas é menor que 5.';
+        END IF;
+    END;
