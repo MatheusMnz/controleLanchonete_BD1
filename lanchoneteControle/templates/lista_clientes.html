@@ -1,21 +1,30 @@
-<!-- templates/lista_clientes.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Clientes</title>
-    <!-- Bootstrap CSS -->
+
+    <!-- Incluir Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Seu CSS personalizado -->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="container">
-        <h1 class="my-4">Lista de Clientes</h1>
+    <div class="container my-4">
+        <!-- Botão para retornar à página inicial -->
+        <a href="{{ url_for('home.home') }}" class="btn btn-secondary mb-3">Voltar</a>
+
+        <h1 class="mb-4">Lista de Clientes</h1>
+        
+        <!-- Botões para adicionar e remover cliente -->
         <a href="{{ url_for('clientes.adiciona_cliente') }}" class="btn btn-primary mb-3">Adicionar Cliente</a>
-        <table class="table table-bordered">
-            <thead>
+        <a href="{{ url_for('clientes.remove_cliente_form') }}" class="btn btn-danger mb-3">Remover Cliente</a>
+
+        <!-- Tabela de Clientes -->
+        <table class="table table-bordered table-hover">
+            <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
                     <th>CPF</th>
@@ -37,5 +46,8 @@
             </tbody>
         </table>
     </div>
+
+    <!-- Incluir Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

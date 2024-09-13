@@ -1,42 +1,43 @@
-<!-- templates/lista_clientes.html -->
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Compras</title>
-    <!-- Bootstrap CSS -->
+
+    <!-- Incluir Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
     <!-- Seu CSS personalizado -->
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
 </head>
 <body>
-   
-    <div class="container mt-5">
+    <div class="container my-5">
+        <!-- Botão para retornar à página inicial -->
+        <a href="{{ url_for('home.home') }}" class="btn btn-secondary mb-4">Voltar</a>
+        
         <h2>Histórico de Compras</h2>
         
-        <!-- Dropdown de Produtos -->
-          <!-- Dropdown básico -->
-          
-            <div class="d-flex">
-                <a class="btn btn-dark" href="{{ url_for('produto_fornecedor.adiciona_produto_fornecedor')}}" role="button">Adicionar Compra</a>
+        <!-- Dropdown de Produtos e Botão de Adicionar Compra -->
+        <div class="d-flex mb-4">
+            <a href="{{ url_for('produto_fornecedor.adiciona_produto_fornecedor') }}" class="btn btn-dark">Adicionar Compra</a>
 
-                <div class="dropdown ms-2">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Selecione um Produto
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li><a class="dropdown-item" href="#" data-produto="all">Todos</a></li>
-                        {% for produto in produtos %}
-                            <li><a class="dropdown-item" href="#" data-produto="{{ produto.id_produto }}">{{produto.id_produto}} - {{ produto.nome }}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
+            <div class="dropdown ms-2">
+                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Selecione um Produto
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" data-produto="all">Todos</a></li>
+                    {% for produto in produtos %}
+                        <li><a class="dropdown-item" href="#" data-produto="{{ produto.id_produto }}">{{ produto.id_produto }} - {{ produto.nome }}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
         
         <!-- Tabela de Histórico de Compras -->
-        <table class="table table-striped" id = "tabela-compras">
-            <thead>
+        <table class="table table-striped table-hover" id="tabela-compras">
+            <thead class="thead-dark">
                 <tr>
                     <th>ID-Compra</th>
                     <th>ID-Produto</th>
@@ -51,47 +52,46 @@
             <tbody>
                 {% for compra in historico_compras %}
                     <tr data-produto-id="{{ compra.id_produto }}">
-                    <td>{{ compra.id_compra }}</td>
-                    <td>{{ compra.id_produto }}</td>
-                    <td>{{ compra.nome_produto }}</td>
-                    <td>{{ compra.id_fornecedor }}</td>
-                    <td>{{ compra.nome_fornecedor }}</td>
-                    <td>{{ compra.data }}</td>
-                    <td>{{ compra.quantidade }}</td>
-                    <td>{{ compra.preco_compra }}</td>
-                </tr>
+                        <td>{{ compra.id_compra }}</td>
+                        <td>{{ compra.id_produto }}</td>
+                        <td>{{ compra.nome_produto }}</td>
+                        <td>{{ compra.id_fornecedor }}</td>
+                        <td>{{ compra.nome_fornecedor }}</td>
+                        <td>{{ compra.data }}</td>
+                        <td>{{ compra.quantidade }}</td>
+                        <td>{{ compra.preco_compra }}</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
 
-    <!-- Bootstrap JS e dependências -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Incluir Bootstrap JS e dependências -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 
-
-<!-- JavaScript para Filtragem -->
-<script>
-    document.querySelectorAll('.dropdown-item').forEach(item => {
-        item.addEventListener('click', function() {
-            let produtoId = this.getAttribute('data-produto');
-            filterTable(produtoId);
+    <!-- JavaScript para Filtragem -->
+    <script>
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', function() {
+                let produtoId = this.getAttribute('data-produto');
+                filterTable(produtoId);
+            });
         });
-    });
 
-    function filterTable(produtoId) {
-        let rows = document.querySelectorAll('#tabela-compras tbody tr');
-        rows.forEach(row => {
-            if (produtoId === 'all') {
-                row.style.display = ''; // Mostrar todos os itens
-            } else {
-                if (row.getAttribute('data-produto-id') === produtoId) {
-                    row.style.display = ''; // Mostrar o item correspondente
+        function filterTable(produtoId) {
+            let rows = document.querySelectorAll('#tabela-compras tbody tr');
+            rows.forEach(row => {
+                if (produtoId === 'all') {
+                    row.style.display = ''; // Mostrar todos os itens
                 } else {
-                    row.style.display = 'none'; // Esconder o item não correspondente
+                    if (row.getAttribute('data-produto-id') === produtoId) {
+                        row.style.display = ''; // Mostrar o item correspondente
+                    } else {
+                        row.style.display = 'none'; // Esconder o item não correspondente
+                    }
                 }
-            }
-        });
-    }
-</script>
+            });
+        }
+    </script>
 </body>
 </html>

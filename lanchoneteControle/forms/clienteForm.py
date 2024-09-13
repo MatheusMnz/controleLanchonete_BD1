@@ -1,6 +1,6 @@
 # forms/clienteForm.py
 from flask_wtf import FlaskForm
-from wtforms import StringField, IntegerField, SubmitField
+from wtforms import StringField, IntegerField, SubmitField, SelectField
 from wtforms.validators import DataRequired, Length, NumberRange
 
 class ClienteForm(FlaskForm):
@@ -9,3 +9,7 @@ class ClienteForm(FlaskForm):
     endereco = StringField('Endereço', validators=[DataRequired(), Length(max=200)])
     idade = IntegerField('Idade', validators=[DataRequired(), NumberRange(min=0, max=120)])
     submit = SubmitField('Adicionar Cliente')
+
+class RemoveClienteForm(FlaskForm):
+    cliente_id = SelectField('Cliente', coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Remover Cliente')

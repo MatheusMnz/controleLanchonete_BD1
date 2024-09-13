@@ -1,76 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Pedido</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.7/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <style>
+        /* Estilo personalizado para a caixa de produtos adicionados */
+        #lista_produtos {
+            min-height: 200px; /* Altura mínima da caixa */
+            max-height: 400px; /* Altura máxima da caixa */
+            overflow-y: auto; /* Adiciona rolagem vertical se necessário */
+        }
+    </style>
 </head>
 <body>
     <div class="container mt-5">
         <form method="POST" id="pedido-form">
-        <div class="d-flex justify-content-between mt-3 mb-3">
-            <a href="{{ url_for('pedidos.lista_pedidos') }}" class="btn btn-secondary" style="font-size: 32px;">Voltar</a>
-            <!-- <button type="button" class="btn btn-secondary" style="font-size: 32px;">Voltar</button> -->
-            <button type="submit" class="btn btn-primary" style="font-size: 32px;">Criar Pedido</button>
-        </div>
-        
+            <div class="d-flex justify-content-between mb-4">
+                <a href="{{ url_for('pedidos.lista_pedidos') }}" class="btn btn-secondary btn-lg">Voltar</a>
+                <button type="submit" class="btn btn-primary btn-lg">Criar Pedido</button>
+            </div>
+
             {{ form.hidden_tag() }} <!-- CSRF Token -->
-            
             <input type="hidden" id="produtos-data" name="produtos_data">
 
-            <div class="form-group">
-                <label for="id_cliente">ID do Cliente</label>
+            <div class="mb-3">
+                <label for="id_cliente" class="form-label">ID do Cliente</label>
                 {{ form.id_cliente(class="form-control") }}
             </div>
-            
-            <div class="form-group">
-                <label for="id_funcionario">ID do Funcionário</label>
+
+            <div class="mb-3">
+                <label for="id_funcionario" class="form-label">ID do Funcionário</label>
                 {{ form.id_funcionario(class="form-control") }}
             </div>
 
-            <div class="form-group">
-                <label for="data">Data</label>
+            <div class="mb-3">
+                <label for="data" class="form-label">Data</label>
                 {{ form.data(class="form-control") }}
             </div>
 
-            <div class="d-flex justify-content-between mt-3 mb-3">
-                <h1>Produtos</h1>
+            <div class="d-flex justify-content-between mb-4">
+                <h3>Produtos</h3>
                 <div class="form-group">
-                    <label for="preco_total">Preço Total</label>
-
-                    <!-- <input type="text" id="preco_total" class="form-control" readonly value="0.00"> -->
-                    {{ form.preco_total(class_="form-control", id = "preco_total", readonly = True, value = "0.00") }}
+                    <label for="preco_total" class="form-label">Preço Total</label>
+                    {{ form.preco_total(class_="form-control", id="preco_total", readonly=True, value="0.00") }}
                 </div>
             </div>
 
             <!-- Produtos adicionados com scroll -->
-            <div id="lista_produtos" class=" border overflow-auto p-3" style="min-height: 400px; max-height: 400px;">
-                
-                 
-                <div class="overflow-auto p-3 d-flex justify-content-center align-items-center" style="min-height: 300px; max-height: 300px;">
-                    <h1 class="m-0">Nenhum Produto Foi Adicionado !</h1>
-                </div>             
-            </div> 
-            
-            <div class="d-flex justify-content-center mt-3 mb-3">
-                <button type="button" id="show-products-btn" class="btn btn-danger mr-3" style="font-size: 24px;">Adicionar Produto</button>
+            <div id="lista_produtos" class="border p-3">
+                <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                    <h4 class="m-0">Nenhum Produto Foi Adicionado!</h4>
+                </div>
             </div>
-            
+
+            <div class="d-flex justify-content-center mt-4">
+                <button type="button" id="show-products-btn" class="btn btn-danger btn-lg">Adicionar Produto</button>
+            </div>
         </form>
 
         <!-- Modal para seleção de produtos -->
-        <div class="modal fade" id="productsModal" tabindex="-1" role="dialog" aria-labelledby="productsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal fade" id="productsModal" tabindex="-1" aria-labelledby="productsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="productsModalLabel">Lista de Produtos</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <table class="table table-striped">
@@ -89,39 +86,37 @@
                         </table>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
         </div>
-        
+
         <!-- Modal para nenhum produto adicionado -->
-        <div class="modal fade" id="noProductsModal" tabindex="-1" role="dialog" aria-labelledby="noProductsModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content ">
+        <div class="modal fade" id="noProductsModal" tabindex="-1" aria-labelledby="noProductsModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title justify-content-center" id="noProductsModalLabel">Nenhum Produto Adicionado</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
+                        <h5 class="modal-title" id="noProductsModalLabel">Nenhum Produto Adicionado</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         Por favor, adicione pelo menos um produto antes de finalizar o pedido.
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
             </div>
         </div>
-        
-
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-         let div_limpa = false;
-         $(document).ready(function() {
+        let div_limpa = false;
+
+        $(document).ready(function() {
             // Mostrar o modal com a lista de produtos
             $('#show-products-btn').on('click', function() {
                 $.ajax({
@@ -163,17 +158,11 @@
                 {
                     $('#noProductsModal').modal('show'); // Mostra o modal
                 }
-                // Se precisar fazer mais validações, faça aqui
-
-                // O formulário será enviado após a função acima
             });
         });
-    
-        function adicionarProduto(id, nome, preco) {
-            // const produtosAdicionados = $('#produtos-adicionados');
 
-            if(div_limpa === false)
-            {            
+        function adicionarProduto(id, nome, preco) {
+            if(!div_limpa) {            
                 const lista_produtos = $('#lista_produtos');
                 lista_produtos.empty();
                 div_limpa = true;        
@@ -198,7 +187,6 @@
             }            
             const produtosAdicionados = $('#produtos-adicionados');
 
-            // Verifica se o produto já foi adicionado
             if ($(`#produto-${id}`).length === 0) {
                 const produtoItem = `
                     <tr id="produto-${id}" class="produto-item">
@@ -220,16 +208,13 @@
 
         function removerProduto(id) {
             $(`#produto-${id}`).remove();
-            if(div_limpa && $('#produtos-tabela tbody tr').length === 0)
-            {
+            if(div_limpa && $('#produtos-tabela tbody tr').length === 0) {
                 const lista_produtos = $('#lista_produtos');
                 lista_produtos.empty();
                 lista_produtos.append(
-                    `
-                    <div class="overflow-auto p-3 d-flex justify-content-center align-items-center" style="min-height: 300px; max-height: 300px;">
-                        <h1 class="m-0">Nenhum Produto Foi Adicionado !</h1>
-                    </div> 
-                    `
+                    `<div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                        <h4 class="m-0">Nenhum Produto Foi Adicionado!</h4>
+                    </div>`
                 );   
                 div_limpa = false;
             }
@@ -243,23 +228,16 @@
                 const quantidade = parseInt($(this).find('.quantidade-produto').val());
                 const precoTotal = preco * quantidade;
                 
-                // Atualiza o valor na coluna "Preço Total" do produto
                 $(this).find('.preco-total-produto').text(precoTotal.toFixed(2));
-                
-                // Acumula o total geral
                 total += precoTotal;
             });
 
-            console.log("Novo total calculado: " + total.toFixed(2)); // Debug
-
             $('#preco_total').val(total.toFixed(2));  // Atualiza o campo de preço total
-            console.log("Valor do campo preco_total atualizado para: " + $('#preco_total').val());
         }
         
         function atualizarHiddenField() {
             const produtosData = [];
             
-            // Itera sobre cada produto adicionado
             $('#produtos-adicionados .produto-item').each(function() {
                 const id_produto = $(this).find('input[name$="[id_produto]"]').val();
                 const quantidade = $(this).find('input[name$="[quantidade]"]').val();
@@ -267,21 +245,14 @@
                 produtosData.push({ id_produto, quantidade, preco });
             });
             
-            // Verifica se o array está vazio
             if (produtosData.length === 0) {
-                return false; // Retorna false se nenhum produto foi adicionado
+                return false;
             }
-            console.log(produtosData);
-            // Se produtos foram adicionados, converte para JSON e atualiza o campo oculto
             const produtosDataString = JSON.stringify(produtosData);
             $('#produtos_data').val(produtosDataString);
-            
-            // Mostrar o valor atual do campo oculto para depuração (opcional)
-            // alert('Dados do campo oculto produtos_data: ' + produtosDataString);
 
-            return true; // Retorna true se produtos foram adicionados
+            return true;
         }
     </script>
-    
 </body>
 </html>
