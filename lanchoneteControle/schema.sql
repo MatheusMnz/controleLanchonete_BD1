@@ -130,28 +130,25 @@ CREATE TABLE IF NOT EXISTS pedido_produto (
 
 
     -- Criação do trigger para verificar se o CPF é válido
-
     CREATE TRIGGER IF NOT EXISTS verifica_cpf_valido
     BEFORE INSERT ON pessoa
     BEGIN
+        -- Verifica se o CPF tem 11 dígitos e se são todos números
         SELECT CASE
-            WHEN NEW.cpf NOT LIKE '[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]'
-            THEN RAISE(ABORT, 'CPF inválido')
+            WHEN LENGTH(NEW.cpf) != 11 OR NEW.cpf NOT GLOB '[0-9]*'
+            THEN RAISE(ABORT, 'CPF inválido: Deve ter 11 dígitos numéricos')
         END;
     END;
 
 
+
     -- Criação do trigger para verificar a quantidade de vendas
     CREATE TRIGGER IF NOT EXISTS verifica_quantidade_vendas
-    AFTER INSERT ON pedido_produto
+    BEFORE INSERT ON pedido_produto
     BEGIN
-        DECLARE quantidade_vendas INTEGER;
-        SELECT quantidade_vendas INTO quantidade_vendas
-        FROM pedido_produto
-        WHERE id_pedido = NEW.id_pedido
-        AND id_produto = NEW.id_produto;
-        
-        IF quantidade_vendas < 5 THEN
-            PRINT 'Atenção: A quantidade de vendas é menor que 5.';
-        END IF;
+        -- Verifica se a quantidade de vendas é menor que 5
+        SELECT CASE
+            WHEN NEW.quantidade_vendas < 5 
+            THEN RAISE(ABORT, 'A quantidade de vendas é menor que 5.')
+        END;
     END;
